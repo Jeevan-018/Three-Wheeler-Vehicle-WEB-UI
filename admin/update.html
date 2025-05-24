@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Vehicle Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function validateForm(event) {
+            event.preventDefault(); // Prevent form submission
+
+            let form = document.forms["updateForm"];
+            let fields = ["fuel_type", "manufacturer", "owner_name", "address", "phone_number"];
+
+            for (let field of fields) {
+                let input = form[field].value.trim();
+                if (input === "") {
+                    alert("Please fill out all required fields before submitting.");
+                    return false;
+                }
+            }
+
+            alert("Vehicle details updated successfully!");
+            window.location.href = "index.html"; // Redirect to homepage
+        }
+
+        function confirmLogout() {
+            let userChoice = confirm("Are you sure you want to logout?");
+            if (userChoice) {
+                window.location.href = "../register.html"; // Redirect to login page
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Header with Home and LogOut Buttons -->
+    <div class="header">
+        <a href="index.html" class="btn-home">Home</a>
+        <div class="text-center">
+            <img src="images/logo.jpeg" alt="Three Wheeler Icon" width="80">
+            <h2 class="m-0">Three Wheeler Registration</h2>
+        </div>
+        <button onclick="confirmLogout()" class="btn-logout">LogOut</button>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="new-register.html">New Registration</a></li>
+                <li class="nav-item"><a class="nav-link" href="update.html">Update Ownership / Transfer</a></li>
+                <li class="nav-item"><a class="nav-link" href="de-register.html">Vehicle Deregistration</a></li>
+                <li class="nav-item"><a class="nav-link" href="download-all.html">View all vehicles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Update Form -->
+    <br>
+    <h2 class="text-center text-primary">Update Vehicle Details</h2>
+    <div class="details-form mt-4">
+        <form name="updateForm" onsubmit="return validateForm(event)">
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Owner Name:</label>
+                    <input type="text" class="form-control" name="owner_name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Phone Number:</label>
+                    <input type="tel" class="form-control" name="phone_number" pattern="[0-9]{10}" required>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Father's Name:</label>
+                    <input type="text" class="form-control" name="father_name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Date of Birth:</label>
+                    <input type="date" class="form-control" name="dob" required>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Gender:</label>
+                    <div>
+                        <input type="radio" name="gender" value="Male" required> Male
+                        <input type="radio" name="gender" value="Female" required> Female
+                        <input type="radio" name="gender" value="Other" required> Other
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Aadhaar Number:</label>
+                    <input type="text" class="form-control" name="aadhaar" maxlength="12" required>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Address:</label>
+                    <textarea class="form-control" name="address" rows="3" required></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">DL Number:</label>
+                    <input type="text" class="form-control" name="dl_number" required>
+                </div>
+            </div>
+
+            <div class="mt-4 text-center">
+                <button type="submit" class="btn btn-success">Update Details</button>
+                <button type="reset" class="btn btn-danger">Clear</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer">
+        <p>States use registrations to determine vehicle ownership and provide data when tracking a criminal or assessing taxes.<br>
+        Copyright &copy; MCA 2024-25</p>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Wheeler Registration - Search Vehicle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <img src="images/logo.jpeg" alt="Three Wheeler Icon" width="80">
+        <h2>Three Wheeler Registration</h2>
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="download.html">Download</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="form-control w-50" placeholder="Enter Vehicle Number">
+        <button class="btn btn-primary ms-2" onclick="searchVehicle()">Search</button>
+    </div>
+
+    <div class="table-container">
+        <h3 class="text-center">Registered Vehicle Details</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Owner Name</th>
+                    <th>Vehicle Number</th>
+                    <th>Model</th>
+                    <th>Color</th>
+                    <th>Preview</th>
+                </tr>
+            </thead>
+            <tbody id="vehicleTable">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>States use registrations to determine vehicle ownership and provide data when tracking a criminal or assessing taxes.<br>
+        Copyright &copy; MCA 2024-25</p>
+    </div>
+
+    <script>
+        const vehicles = [
+            { owner: "Jeevan.G", number: "ABCD1234", model: "Bajaj RE", color: "Red", file: "documents/vehicle_abc1234.pdf" }
+        ];
+
+        function searchVehicle() {
+    let input = document.getElementById("searchInput").value.trim().toUpperCase();
+    let tableBody = document.getElementById("vehicleTable");
+    tableBody.innerHTML = "";
+
+    let matchedVehicle = vehicles.find(vehicle => vehicle.number.toUpperCase() === input);
+
+    if (matchedVehicle) {
+        tableBody.innerHTML = `<tr>
+            <td>${matchedVehicle.owner}</td>
+            <td>${matchedVehicle.number}</td>
+            <td>${matchedVehicle.model}</td>
+            <td>${matchedVehicle.color}</td>
+            <td><a href="preview.html?number=${matchedVehicle.number}&owner=${matchedVehicle.owner}&model=${matchedVehicle.model}&color=${matchedVehicle.color}" class="btn btn-primary btn-sm">Preview</a></td>
+        </tr>`;
+    } else {
+        tableBody.innerHTML = `<tr><td colspan="5" class="text-danger">No record found!</td></tr>`;
+    }
+}
+    </script>
+</body>
+</html>

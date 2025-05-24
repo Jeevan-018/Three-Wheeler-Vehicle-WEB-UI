@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Registered Vehicles</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const vehicleData = [
+            { reg_number: "KA12AB1234", owner_name: "Jeevan", phone_number: "9686585450", fuel_type: "Petrol", manufacturer: "Bajaj", chassis_number: "CHS123456789", engine_number: "ENG987654321", dl_number: "DL1234567890", dob: "16-08-2003", aadhaar_number: "1234-5678-9012", gender: "Male", address: "123, Street Name, City" },
+            { reg_number: "KA14CD5678", owner_name: "Chandu", phone_number: "9686585450", fuel_type: "Electric", manufacturer: "Raftar", chassis_number: "HGA987654321", engine_number: "JHA123456789", dl_number: "DL0987654321", dob: "16-08-2003", aadhaar_number: "5678-1234-9012", gender: "Male", address: "456, Another Street, City" },
+            { reg_number: "KA686D5678", owner_name: "Nuthan", phone_number: "8546585450", fuel_type: "Diesel", manufacturer: "TVS", chassis_number: "KHA987654321", engine_number: "JSG123456789", dl_number: "DL5414654321", dob: "15-03-2003", aadhaar_number: "2995-1234-9012", gender: "Male", address: "857, Another Street, City" }
+        ];
+
+        function loadVehicleData() {
+            let tableBody = document.getElementById("vehicleTableBody");
+            tableBody.innerHTML = "";
+
+            vehicleData.forEach(vehicle => {
+                let row = `
+                    <tr>
+                        <td>${vehicle.reg_number}</td>
+                        <td>${vehicle.owner_name}</td>
+                        <td>${vehicle.phone_number}</td>
+                        <td>${vehicle.fuel_type}</td>
+                        <td>${vehicle.manufacturer}</td>
+                        <td>${vehicle.chassis_number}</td>
+                        <td>${vehicle.engine_number}</td>
+                        <td>${vehicle.dl_number}</td>
+                        <td>${vehicle.dob}</td>
+                        <td>${vehicle.aadhaar_number}</td>
+                        <td>${vehicle.gender}</td>
+                        <td>${vehicle.address}</td>
+                        <td><button class="download-btn" onclick="generatePDF('${vehicle.reg_number}')">Download</button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function generatePDF(regNumber) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            let vehicle = vehicleData.find(v => v.reg_number === regNumber);
+            if (!vehicle) {
+                alert("Vehicle not found!");
+                return;
+            }
+
+            // Title
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("Vehicle Registration Certificate", 105, 15, null, null, "center");
+
+            // TRO Office Address - Centered
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text("Regional Transport Office (RTO)", 105, 25, null, null, "center");
+            doc.text("State: Karnataka | District: Tumakuru", 105, 32, null, null, "center");
+            doc.text("Address: B.H Road Tumakuru - 572101", 105, 39, null, null, "center");
+
+            // Table Headers
+            let startX = 20;
+            let startY = 50;
+            let rowHeight = 10;
+            let colWidth = 85;
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("Field", startX, startY);
+            doc.text("Details", startX + colWidth, startY);
+
+            doc.setFont("helvetica", "normal");
+
+            // Table Data
+            let fields = [
+                ["Registration Number", vehicle.reg_number],
+                ["Owner Name", vehicle.owner_name],
+                ["Phone Number", vehicle.phone_number],
+                ["Fuel Type", vehicle.fuel_type],
+                ["Manufacturer", vehicle.manufacturer],
+                ["Chassis Number", vehicle.chassis_number],
+                ["Engine Number", vehicle.engine_number],
+                ["DL Number", vehicle.dl_number],
+                ["Date of Birth", vehicle.dob],
+                ["Aadhaar Number", vehicle.aadhaar_number],
+                ["Gender", vehicle.gender],
+                ["Address", vehicle.address]
+            ];
+
+            fields.forEach((field, index) => {
+                let y = startY + (index + 1) * rowHeight;
+                doc.text(field[0], startX, y);
+                doc.text(field[1], startX + colWidth, y);
+            });
+
+            // Add a rectangle border around the table
+            let tableHeight = fields.length * rowHeight + 10;
+            doc.rect(startX - 5, startY - 5, colWidth * 2, tableHeight);
+
+            // Save the PDF
+            doc.save(`${vehicle.reg_number}_details.pdf`);
+        }
+
+        function confirmLogout() {
+            let userChoice = confirm("Are you sure you want to logout?");
+            if (userChoice) {
+                window.location.href = "../register.html"; // Redirect to login page
+            }
+        }
+
+        window.onload = loadVehicleData;
+    </script>
+</head>
+
+<body>
+
+    <!-- Header with Home and LogOut Buttons -->
+    <div class="header">
+        <a href="index.html" class="btn-home">Home</a>
+        <div class="text-center">
+            <img src="images/logo.jpeg" alt="Three Wheeler Icon" width="80">
+            <h2 class="m-0">Three Wheeler Registration</h2>
+        </div>
+        <button onclick="confirmLogout()" class="btn-logout">LogOut</button>
+    </div>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link" href="new-register.html">New Registration</a></li>
+                <li class="nav-item"><a class="nav-link" href="update.html">Update Ownership / Transfer</a></li>
+                <li class="nav-item"><a class="nav-link" href="de-register.html">Vehicle Deregistration</a></li>
+                <li class="nav-item"><a class="nav-link" href="download-all.html">View all vehicles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Table Container -->
+    <div class="container mt-4">
+        <div class="table-container">
+            <br>
+            <h3 class="text-center mb-3">Vehicle Registration Details</h3>
+            <br>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Reg. Number</th>
+                        <th>Owner Name</th>
+                        <th>Phone</th>
+                        <th>Fuel</th>
+                        <th>Manufacturer</th>
+                        <th>Chassis No.</th>
+                        <th>Engine No.</th>
+                        <th>DL No.</th>
+                        <th>DOB</th>
+                        <th>Aadhaar No.</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody id="vehicleTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+    <div class="footer">
+        <p>States use registrations to determine vehicle ownership and provide data when tracking a criminal or assessing taxes.<br>
+            Copyright&copy; MCA 2024-25</p>
+    </div>
+
+</body>
+
+</html>

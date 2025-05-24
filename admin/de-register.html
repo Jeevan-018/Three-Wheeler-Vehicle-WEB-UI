@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showVehicleDetails() {
+            var regNo = document.getElementById("regNoInput").value;
+            if (regNo) {
+                document.getElementById("regNoDisplay").innerText = "REG NO: " + regNo;
+                document.getElementById("ownerName").innerText = "Owner: John Doe";
+                document.getElementById("model").innerText = "Model: Bajaj RE";
+                document.getElementById("year").innerText = "Year: 2022";
+                document.getElementById("vehicleDetails").style.display = "block";
+            }
+        }
+
+        function deregisterVehicle() {
+            alert("Vehicle deregistered successfully!");
+            document.getElementById("vehicleDetails").style.display = "none";
+        }
+
+        function confirmLogout() {
+            let userChoice = confirm("Are you sure you want to logout?");
+            if (userChoice) {
+                window.location.href = "../register.html"; // Redirect to login page
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="btn-home">Home</a>
+        <div class="text-center">
+            <img src="images/logo.jpeg" alt="Three Wheeler Icon" width="80">
+            <h2 class="m-0">Three Wheeler Registration</h2>
+        </div>
+        <button onclick="confirmLogout()" class="btn-logout">LogOut</button>
+    </div>
+    
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="new-register.html">New Registration</a></li>
+                <li class="nav-item"><a class="nav-link" href="update.html">Update Ownership / Transfer</a></li>
+                <li class="nav-item"><a class="nav-link" href="de-register.html">Vehicle Deregistration</a></li>
+                <li class="nav-item"><a class="nav-link" href="download-all.html">View all vehicles</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-content text-center"><br><br><br><br><br>
+        <input type="text" id="regNoInput" class="form-control w-50 mx-auto" placeholder="Enter Registration Number">
+        <button class="btn btn-primary mt-2" onclick="showVehicleDetails()">Search</button>
+        <br><br><br><br>
+        <div id="vehicleDetails" class="details-container mt-4" style="display:none;">
+            <table class="table table-bordered mx-auto" style="width: 50%;">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Vehicle Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="regNoDisplay">REG NO: </td>
+                    </tr>
+                    <tr>
+                        <td id="ownerName">Owner: </td>
+                    </tr>
+                    <tr>
+                        <td id="model">Model: </td>
+                    </tr>
+                    <tr>
+                        <td id="year">Year: </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-danger mt-3" onclick="deregisterVehicle()">Deregister</button>
+            <br><br><br>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>States use registrations to determine vehicle ownership and provide data when tracking a criminal or assessing taxes.<br>
+            Copyright &copy; MCA 2024-25
+        </p>
+    </div>
+</body>
+</html>
